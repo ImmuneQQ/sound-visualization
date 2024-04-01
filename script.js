@@ -8,6 +8,24 @@ const canvas = document.getElementById('waves');
 const canvasCtx = canvas.getContext("2d");
 const typeElement = document.getElementById('type');
 
+(async () => {
+    try {
+        await navigator.mediaDevices.getUserMedia({audio: true});
+        let devices = await navigator.mediaDevices.enumerateDevices();
+        devices
+          .filter((device) => device.kind === 'audioinput')
+          .forEach((device) => {
+              const option = document.createElement('option');
+              option.innerHTML = device.label;
+              option.value = device.deviceId;
+              devicesElement.appendChild(option);
+          });
+    } catch (error) {
+        alert(error + '\r\n\ Отклонено. Страница будет обновлена!');
+        location.reload();
+    }
+})();
+
 devicesElement.addEventListener('change', function () {
     if(context) return;
 
@@ -44,22 +62,6 @@ devicesElement.addEventListener('change', function () {
     devicesElement.remove();
     typeElement.remove();
 })
-
-navigator.mediaDevices.enumerateDevices()
-  .then((devices) => {
-      devices
-        .filter((device) => device.kind === 'audioinput')
-        .forEach((device) => {
-          const option = document.createElement('option');
-          option.innerHTML = device.label;
-          option.value = device.deviceId;
-          devicesElement.appendChild(option);
-        })
-  })
-  .catch((error) => {
-      alert(error + '\r\n\ Отклонено. Страница будет обновлена!');
-      location.reload();
-  });
 
 function loop() {
     window.requestAnimationFrame(loop);

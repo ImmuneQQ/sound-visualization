@@ -1,21 +1,29 @@
 body{
     margin: 0;
     min-height: 100vh;
+    overflow: hidden;
     display: flex;
     justify-content: center;
     align-items: center;
-    overflow: hidden;
+}
+.visualizer {
+    display: none;
+}
+#lines {
+    justify-content: center;
+    align-items: center;
 }
 .logo{
     margin: 5px;
 }
-button{
-    color: whitesmoke;
-    cursor: pointer;
-    font-style: italic;
-    background: grey;
-    border: none;
-    padding: 15px;
-    border-radius: 5px;
-    font-size: 1.5em;
+label {
+    display: none;
 }
+.selects {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+

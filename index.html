@@ -8,7 +8,24 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <button>Start</button>
+    <div class="selects">
+        <div>
+            <label for="type">Type:</label>
+            <select id="type">
+                <option value="waves">Waves</option>
+                <option value="lines">Lines</option>
+            </select>
+        </div>
+        <div>
+            <label for="devices">Devices:</label>
+            <select id="devices">
+                <option>Select device</option>
+            </select>
+        </div>
+    </div>
+
+    <canvas class="visualizer" id="waves" height="500" width="1920"></canvas>
+    <div class="visualizer" id="lines"></div>
     <script src="script.js"></script>
 </body>
 </html>

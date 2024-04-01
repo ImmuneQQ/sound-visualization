@@ -1,23 +1,23 @@
-var body, num, array, width, context, logo, myElements, analyser, src, height;
+let body, num, array, width, context, logo, myElements, analyser, src, height;
 
 body = document.querySelector('body');
 
-num = 32;
+num = 64;
 
 array = new Uint8Array(num*2);
 
-width = 10;
+width = 3;
 
 window.onclick = function(){
 
     if(context) return;
 
-    body.querySelector('h1').remove();
+    body.querySelector('button').remove();
 
-    for(var i = 0 ; i < num ; i++){
+    for(let i = 0 ; i < num ; i++){
         logo = document.createElement('div');
         logo.className = 'logo';
-        logo.style.background = 'red';
+        logo.style.background = '#000';
         logo.style.minWidth = width+'px';
         body.appendChild(logo);
     }
@@ -41,7 +41,7 @@ window.onclick = function(){
 function loop() {
     window.requestAnimationFrame(loop);
     analyser.getByteFrequencyData(array);
-    for(var i = 0 ; i < num ; i++){
+    for(let i = 0 ; i < num ; i++){
         height = array[i+num];
         myElements[i].style.minHeight = height+'px';
         myElements[i].style.opacity = 0.008*height;

@@ -1,12 +1,34 @@
-let linesVisualizer, num, array, width, context, logo, myElements, analyser, src, height;
+let linesVisualizer, num, array, width, context, logo, myElements, analyser, src, height, color;
 linesVisualizer = document.getElementById('lines');
 num = 64;
-array = new Uint8Array(num*2);
 width = 2;
+color = '#000000';
 devicesElement = document.getElementById('devices');
 const canvas = document.getElementById('waves');
 const canvasCtx = canvas.getContext("2d");
 const typeElement = document.getElementById('type');
+const freqElement = document.getElementById('freq');
+const widthElement = document.getElementById('lineWidth');
+const colorElement = document.getElementById('color');
+const selects = document.querySelector('.selects-wrapper');
+
+freqElement.addEventListener('change', function ()  {
+    if (+this.value < 8) {
+        this.value = 8;
+    }
+    num = +this.value;
+});
+
+widthElement.addEventListener('change', function ()  {
+    if (+this.value < 1) {
+        this.value = 1;
+    }
+    width = +this.value;
+});
+
+colorElement.addEventListener('change', function ()  {
+    color = this.value;
+});
 
 (async () => {
     try {
@@ -32,7 +54,7 @@ devicesElement.addEventListener('change', function () {
     for(let i = 0 ; i < num ; i++){
         logo = document.createElement('div');
         logo.className = 'logo';
-        logo.style.background = '#000';
+        logo.style.background = color;
         logo.style.minWidth = width+'px';
         linesVisualizer.appendChild(logo);
     }
@@ -40,6 +62,9 @@ devicesElement.addEventListener('change', function () {
     myElements = document.getElementsByClassName('logo');
     context = new AudioContext();
     analyser = context.createAnalyser();
+    analyser.fftSize = num*4;
+    const bufferLength = analyser.frequencyBinCount;
+    array = new Uint8Array(bufferLength);
 
     navigator.mediaDevices.getUserMedia({
         audio: { deviceId: this.value }
@@ -59,15 +84,14 @@ devicesElement.addEventListener('change', function () {
         location.reload();
     });
 
-    devicesElement.remove();
-    typeElement.remove();
+    selects.remove();
 })
 
 function loop() {
     window.requestAnimationFrame(loop);
     analyser.getByteFrequencyData(array);
     for(let i = 0 ; i < num ; i++){
-        height = array[i+num];
+        height = array[i];
         myElements[i].style.minHeight = height+'px';
         myElements[i].style.opacity = 0.008*height;
     }
@@ -86,9 +110,8 @@ function visualize() {
         canvasCtx.fillStyle = 'rgb(255, 255, 255)';
         canvasCtx.fillRect(0, 0, WIDTH, HEIGHT);
 
-        canvasCtx.lineWidth = 2;
-        canvasCtx.strokeStyle = 'rgb(0, 0, 0)';
-        canvasCtx.lineCap = 'round';
+        canvasCtx.lineWidth = width;
+        canvasCtx.strokeStyle = color;
 
         canvasCtx.beginPath();
 
@@ -96,8 +119,8 @@ function visualize() {
         let x = 0;
 
 
-        for(let i = 0; i < num + 3; i++) {
-            const freq = array[i+num];
+        for(let i = 0; i < num; i++) {
+            const freq = array[i];
             const halfSlice = sliceWidth / 2;
 
             let y =  i % 2 === 0 ? HEIGHT / 2 + freq : HEIGHT / 2 - freq;
@@ -117,3 +140,7 @@ function visualize() {
 
     }
 }
+
+setInterval(() => {
+    console.log(array);
+}, 1000)

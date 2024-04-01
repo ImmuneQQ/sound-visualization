@@ -5,6 +5,8 @@ body{
     display: flex;
     justify-content: center;
     align-items: center;
+    flex-direction: column;
+    gap: 10px;
 }
 .visualizer {
     display: none;
@@ -16,8 +18,12 @@ body{
 .logo{
     margin: 5px;
 }
-label {
-    display: none;
+.selects-wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
 }
 .selects {
     display: flex;

@@ -8,21 +8,38 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="selects">
-        <div>
-            <label for="type">Type:</label>
-            <select id="type">
-                <option value="waves">Waves</option>
-                <option value="lines">Lines</option>
-            </select>
+    <div class="selects-wrapper">
+        <div class="selects">
+            <div>
+                <label for="freq">Частота:</label>
+                <input type="number" id="freq" value="64" min="8">
+            </div>
+            <div>
+                <label for="lineWidth">Толщина:</label>
+                <input type="number" id="lineWidth" value="2" min="1">
+            </div>
+            <div>
+                <label for="color">Цвет:</label>
+                <input type="color" id="color" value="#000000">
+            </div>
         </div>
-        <div>
-            <label for="devices">Devices:</label>
-            <select id="devices">
-                <option>Select device</option>
-            </select>
+        <div class="selects">
+            <div>
+                <label for="type">Тип:</label>
+                <select id="type">
+                    <option value="waves">Волны</option>
+                    <option value="lines">Линии</option>
+                </select>
+            </div>
+            <div>
+                <label for="devices">Устройства:</label>
+                <select id="devices">
+                    <option>Выберите устройство</option>
+                </select>
+            </div>
         </div>
     </div>
+
 
     <canvas class="visualizer" id="waves" height="500" width="2000"></canvas>
     <div class="visualizer" id="lines"></div>

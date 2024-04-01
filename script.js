@@ -140,7 +140,3 @@ function visualize() {
 
     }
 }
-
-setInterval(() => {
-    console.log(array);
-}, 1000)

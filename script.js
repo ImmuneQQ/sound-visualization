@@ -6,7 +6,7 @@ num = 64;
 
 array = new Uint8Array(num*2);
 
-width = 3;
+width = 2;
 
 window.onclick = function(){
 

@@ -8,12 +8,28 @@ body{
     flex-direction: column;
     gap: 10px;
 }
+.visualizers {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+}
+.visualizers-wrapper {
+    width: 25%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 .visualizer {
     display: none;
 }
-#lines {
-    justify-content: center;
+.visualizer_lines {
+    width: 100%;
+    height: 100vh;
+    justify-content: flex-start;
     align-items: center;
+    flex-direction: column;
 }
 .selects-wrapper {
     display: flex;
@@ -28,5 +44,9 @@ body{
     justify-content: center;
     align-items: center;
     gap: 10px;
+}
+.visualizer_waves {
+    width: 100%;
+    height: 100vh;
 }
 

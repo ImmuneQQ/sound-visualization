@@ -1,16 +1,12 @@
-let linesVisualizer, num, array, width, context, logo, myElements, analyser, src, height, color;
-linesVisualizer = document.getElementById('lines');
-num = 64;
-width = 2;
-color = '#000000';
-devicesElement = document.getElementById('devices');
-const canvas = document.getElementById('waves');
-const canvasCtx = canvas.getContext("2d");
-const typeElement = document.getElementById('type');
+let array, logo, myElements, analyser, src, height;
+let linesVisualizer = document.getElementById('lines');
+let num = 64;
+let width = 12;
+let color = '#000000';
+
 const freqElement = document.getElementById('freq');
 const widthElement = document.getElementById('lineWidth');
 const colorElement = document.getElementById('color');
-const selects = document.querySelector('.selects-wrapper');
 
 freqElement.addEventListener('change', function ()  {
     if (+this.value < 8) {
@@ -30,7 +26,10 @@ colorElement.addEventListener('change', function ()  {
     color = this.value;
 });
 
-(async () => {
+const selectsWrapper = document.querySelector('.selects-wrapper');
+const selectsElements = document.querySelectorAll('.selects_instance');
+
+const createMedia = async (devicesElement) => {
     try {
         await navigator.mediaDevices.getUserMedia({audio: true});
         let devices = await navigator.mediaDevices.enumerateDevices();
@@ -46,63 +45,73 @@ colorElement.addEventListener('change', function ()  {
         alert(error + '\r\n\ Отклонено. Страница будет обновлена!');
         location.reload();
     }
-})();
+};
 
-devicesElement.addEventListener('change', function () {
-    if(context) return;
+selectsElements.forEach(async (selectsElement) => {
+    const typeElement = selectsElement.querySelector('.type');
+    const devicesElement = selectsElement.querySelector('.devices');
 
+    await createMedia(devicesElement);
+
+    devicesElement.addEventListener('change', function () {
+        const context = new AudioContext();
+        analyser = context.createAnalyser();
+        analyser.fftSize = num*4;
+        const bufferLength = analyser.frequencyBinCount;
+        array = new Uint8Array(bufferLength);
+
+        navigator.mediaDevices.getUserMedia({
+            audio: { deviceId: this.value }
+        }).then(stream => {
+            src = context.createMediaStreamSource(stream);
+            src.connect(analyser);
+            if (typeElement.value === 'lines') {
+                linesVisualizer.style.display = 'flex';
+                visualizeLines();
+            }
+            if (typeElement.value === 'waves') {
+                canvasElement.style.display = 'block';
+                visualizeWaves();
+            }
+        }).catch(error => {
+            alert(error + '\r\n\ Отклонено. Страница будет обновлена!');
+            location.reload();
+        });
+
+        selectsWrapper.remove();
+    });
+});
+
+function visualizeLines() {
     for(let i = 0 ; i < num ; i++){
         logo = document.createElement('div');
         logo.className = 'logo';
         logo.style.background = color;
         logo.style.minWidth = width+'px';
+        logo.style.margin = `0 ${width / 2}px`;
         linesVisualizer.appendChild(logo);
     }
-
     myElements = document.getElementsByClassName('logo');
-    context = new AudioContext();
-    analyser = context.createAnalyser();
-    analyser.fftSize = num*4;
-    const bufferLength = analyser.frequencyBinCount;
-    array = new Uint8Array(bufferLength);
+    draw();
 
-    navigator.mediaDevices.getUserMedia({
-        audio: { deviceId: this.value }
-    }).then(stream => {
-        src = context.createMediaStreamSource(stream);
-        src.connect(analyser);
-        if (typeElement.value === 'lines') {
-            linesVisualizer.style.display = 'flex';
-            loop();
+    function draw() {
+        window.requestAnimationFrame(draw);
+        analyser.getByteFrequencyData(array);
+        for(let i = 0 ; i < num ; i++){
+            height = array[i];
+            myElements[i].style.minHeight = height+'px';
         }
-        if (typeElement.value === 'waves') {
-            canvas.style.display = 'block';
-            visualize();
-        }
-    }).catch(error => {
-        alert(error + '\r\n\ Отклонено. Страница будет обновлена!');
-        location.reload();
-    });
-
-    selects.remove();
-})
-
-function loop() {
-    window.requestAnimationFrame(loop);
-    analyser.getByteFrequencyData(array);
-    for(let i = 0 ; i < num ; i++){
-        height = array[i];
-        myElements[i].style.minHeight = height+'px';
-        myElements[i].style.opacity = 0.008*height;
     }
 }
 
-function visualize() {
-    draw()
+function visualizeWaves() {
+    const canvasElement = document.getElementById('waves');
+    const canvasCtx = canvasElement.getContext("2d");
+    draw();
 
     function draw() {
-        const WIDTH = canvas.width;
-        const HEIGHT = canvas.height;
+        const WIDTH = canvasElement.width;
+        const HEIGHT = canvasElement.height;
 
         requestAnimationFrame(draw);
         analyser.getByteFrequencyData(array);

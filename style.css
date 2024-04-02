@@ -15,9 +15,6 @@ body{
     justify-content: center;
     align-items: center;
 }
-.logo{
-    margin: 5px;
-}
 .selects-wrapper {
     display: flex;
     flex-direction: column;

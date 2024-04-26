@@ -19,57 +19,27 @@
                 <input type="number" id="lineWidth" value="12" min="1">
             </div>
             <div>
-                <label for="color">Цвет:</label>
-                <input type="color" id="color" value="#000000">
-            </div>
-            <div>
                 <label for="background">Фон:</label>
                 <input type="color" id="background" value="#ffffff">
             </div>
+            <div class="input-range-wrapper" id="spaceBetweenVisualizersWrapper">
+                <label for="spaceBetweenVisualizers">Расстояние между:</label>
+                <input type="range" id="spaceBetweenVisualizers" value="0" min="0" max="12">
+                <div class="input__value"></div>
+            </div>
         </div>
-        <div class="selects selects_instance" data-id="0">
+        <div class="colors-wrapper">
             <div>
-                <label for="type-1">Тип:</label>
-                <select class="type" id="type-1">
-                    <option value="waves">Волны</option>
-                    <option value="lines">Линии</option>
-                    <option value="rectangles" selected>Прямоугольники</option>
+                <label for="color-type">Тип цвета:</label>
+                <select id="color-type">
+                    <option value="simple">Простой</option>
+                    <option value="gradient">Градиент</option>
                 </select>
             </div>
-            <div>
-                <label for="devices-1">Устройства:</label>
-                <select class="devices" id="devices-1"></select>
-            </div>
         </div>
-        <div class="selects selects_instance" data-id="1">
-            <div>
-                <label for="type-2">Тип:</label>
-                <select class="type" id="type-2">
-                    <option value="waves">Волны</option>
-                    <option value="lines" selected>Линии</option>
-                    <option value="rectangles">Прямоугольники</option>
-                </select>
-            </div>
-            <div>
-                <label for="devices-2">Устройства:</label>
-                <select class="devices" id="devices-2"></select>
-            </div>
-        </div>
-        <div class="selects selects_instance" data-id="2">
-            <div>
-                <label for="type-3">Тип:</label>
-                <select class="type" id="type-3">
-                    <option value="waves" selected>Волны</option>
-                    <option value="lines">Линии</option>
-                    <option value="rectangles">Прямоугольники</option>
-                </select>
-            </div>
-            <div>
-                <label for="devices-3">Устройства:</label>
-                <select class="devices" id="devices-3"></select>
-            </div>
-        </div>
-        <button id="start">Начать</button>
+        <div class="devices-selects"></div>
+        <button id="start">Начать/обновить</button>
+        <div>ПКМ - скрыть показать настройки</div>
     </div>
 
     <div class="visualizers">
@@ -86,6 +56,9 @@
             <div class="visualizer visualizer_lines"></div>
         </div>
     </div>
-    <script src="script.js"></script>
+    <script src="lineSettings.js" type="module"></script>
+    <script src="visualizersSelects.js" type="module"></script>
+    <script src="colorSelects.js" type="module"></script>
+    <script src="script.js" type="module"></script>
 </body>
 </html>

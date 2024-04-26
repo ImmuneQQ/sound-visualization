@@ -12,7 +12,7 @@ body{
     width: 100%;
     display: flex;
     align-items: center;
-    justify-content: space-evenly;
+    justify-content: center;
 }
 .visualizers-wrapper {
     width: 25%;
@@ -37,6 +37,13 @@ body{
     justify-content: center;
     align-items: center;
     gap: 10px;
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    background-color: grey;
+    padding: 20px;
+    width: 80%;
 }
 .selects {
     display: flex;
@@ -48,5 +55,29 @@ body{
 .visualizer_waves {
     width: 100%;
     height: 100vh;
+}
+.colors-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+.gradient-color {
+    display: flex;
+    gap: 10px;
+}
+.hidden {
+    display: none !important;
+}
+.devices-selects {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.input-range-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 10px;
 }
 
